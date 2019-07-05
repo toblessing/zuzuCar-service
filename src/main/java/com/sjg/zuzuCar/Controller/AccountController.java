@@ -65,8 +65,8 @@ public class AccountController {
      * @Description 功能: 用户注册方法，并进行用户名规则校验与密码的强度校验,以及两者的非空校验，默认用户身份为normal
      * @Param 输入：Account 对象，必须包括用户名与密码
      **/
-    @PostMapping(value = "/register")
     @ApiOperation(value = "用户注册")
+    @PostMapping(value = "/register")
     public Message<Account> register(@RequestBody Account account) {
         Message<Account> usersMessage = new Message<>();
 
