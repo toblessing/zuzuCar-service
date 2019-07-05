@@ -41,7 +41,6 @@ public class CrudController {
             try {
                 //对列表内的每个前端传回的Map进行转换，转换成Entity所描述的类
                 entityList.add(ReflectUtil.mapToModel(entity, map));
-                message.setData(crudService.add(entityList));
             } catch (ClassNotFoundException|NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
                 message.setSuccess(false);
                 message.setMsg("要添加的类不存在");
@@ -52,6 +51,11 @@ public class CrudController {
         //将转换后的对象添加到数据库
         message.setSuccess(true);
         message.setMsg("添加成功");
+        try {
+            message.setData(crudService.add(entityList));
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+        }
 
         return message;
     }

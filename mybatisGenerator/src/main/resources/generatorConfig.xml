@@ -34,7 +34,7 @@
 
         <table tableName="account">
         </table>
-        <table tableName="order">
+        <table tableName="reservation_form">
         </table>
         <table tableName="models">
         </table>

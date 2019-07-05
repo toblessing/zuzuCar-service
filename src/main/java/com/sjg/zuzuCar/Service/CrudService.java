@@ -35,7 +35,7 @@ public class CrudService {
         Object mapperObj = ReflectUtil.getMapperObjOfEntity(classOfEntity);
 
         //获取对应Mapper的insert方法
-        String methodName = "insert";
+        String methodName = "insertSelective";
         Method finalInsert = ReflectUtil.getMethodFromObj(mapperObj, methodName, classOfEntity);
 
         //遍历每个元素将其添加到数据库
