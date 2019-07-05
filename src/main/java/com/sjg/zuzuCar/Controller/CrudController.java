@@ -41,7 +41,7 @@ public class CrudController {
             try {
                 //对列表内的每个前端传回的Map进行转换，转换成Entity所描述的类
                 entityList.add(ReflectUtil.mapToModel(entity, map));
-                crudService.add(entityList);
+                message.setData(crudService.add(entityList));
             } catch (ClassNotFoundException|NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
                 message.setSuccess(false);
                 message.setMsg("要添加的类不存在");

@@ -6,6 +6,7 @@ import com.sjg.zuzuCar.Service.CrudService;
 import com.sjg.zuzuCar.Service.AccountService;
 import com.sjg.zuzuCar.Util.EncryUtils;
 import com.sjg.zuzuCar.Util.Tools;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class AccountController {
      * @Description 功能: 用户登录，查询数据库之前对用户名与密码进行了非空校验
      * @Param 输入： Account
      **/
+    @ApiOperation(value = "用户登录")
     @PostMapping(value = "/login")
     public Message<Account> login(@RequestBody Account user, HttpSession session, HttpServletResponse response) {
         Message<Account> usersMessage = new Message<>();
@@ -64,6 +66,7 @@ public class AccountController {
      * @Param 输入：Account 对象，必须包括用户名与密码
      **/
     @PostMapping(value = "/register")
+    @ApiOperation(value = "用户注册")
     public Message<Account> register(@RequestBody Account account) {
         Message<Account> usersMessage = new Message<>();
 
@@ -82,7 +85,7 @@ public class AccountController {
 
             usersMessage.setSuccess(false);
             usersMessage.setMsg("密码必须有大写字母、小写字母、数字，并且不小于6位！");
-        } else if (account.getPhone() == null|| account.getPhone().equals("")) {
+        } else if (account.getPhone() == null || account.getPhone().equals("")) {
             usersMessage.setSuccess(false);
             usersMessage.setMsg("电话不能为空！");
         } else {
@@ -107,49 +110,36 @@ public class AccountController {
      * @Description 功能: 更新用户的密码，并且在这之前校验输入的用户名与密码是否为空、密码是否符合强度
      * @Param 输入：Account 对象，必须包括用户名与密码
      **/
-    @PostMapping("/updatePassword")
-    public Message<Account> updatePassword(@RequestBody Account account) {
-
-        Message<Account> usersMessage = new Message<>();
-
-        //正则表达式校验密码，必须包括大写字母、小写字母、数字，并且要在6到32位之间
-        String passwordReg = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,18}$";
-        if (account.getUserName().isEmpty() || account.getPassword().isEmpty()) {
-            usersMessage.setSuccess(false);
-            usersMessage.setMsg("用户名或密码不能为空！");
-        } else if (!account.getPassword().matches(passwordReg)) {
-            usersMessage.setSuccess(false);
-            usersMessage.setMsg("密码必须有大写字母、小写字母、数字，并且不小于6位！");
-        } else {
-            account.setPassword(EncryUtils.encryptMD5(account.getPassword()));
-            int i = accountService.updateUser(account);
-            if (i == 0) {
-                usersMessage.setSuccess(false);
-                usersMessage.setMsg("用户不存在！");
-            } else {
-                usersMessage.setSuccess(true);
-                usersMessage.setMsg("修改成功！");
-            }
-        }
-        return usersMessage;
-
-    }
-    /**
-     * @return 返回： 携带Account对象的Message，并带有成功或失败的消息
-     * @Author song
-     * @Date 2019/4/20 13:32
-     * @Description 功能: 更新用户的资料
-     * @Param 输入：Account 对象
-     **/
     @PostMapping("/updateAccount")
+    @ApiOperation(value = "修改用户信息")
     public Message<Account> updateAccount(@RequestBody Account account) {
 
         Message<Account> usersMessage = new Message<>();
 
-        if (Tools.getUserFromSeesion()==null) {
+
+        //正则表达式校验密码，必须包括大写字母、小写字母、数字，并且要在6到32位之间
+        String passwordReg = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,18}$";
+        if (Tools.getUserFromSeesion() == null) {
             usersMessage.setSuccess(false);
-            usersMessage.setMsg("您尚未登录，不能修改资料！请重新登录！");
-        }else {
+            usersMessage.setMsg("您尚未登录！请登录后重试！");
+        } else if (account.getUserName() == null || account.getUserName().isEmpty()) {
+            usersMessage.setSuccess(false);
+            usersMessage.setMsg("用户名不能为空！");
+        } else {
+            if (account.getPassword() != null &&
+                    !account.getPassword().isEmpty()) {
+                if (!account.getPassword().matches(passwordReg)) {
+                    usersMessage.setSuccess(false);
+                    usersMessage.setMsg("密码必须有大写字母、小写字母、数字，并且不小于6位！");
+                    return usersMessage;
+
+                } else{
+                    account.setPassword(EncryUtils.encryptMD5(account.getPassword()));
+                }
+            } else {
+                account.setPassword(null);
+            }
+
             int i = accountService.updateUser(account);
             if (i == 0) {
                 usersMessage.setSuccess(false);
@@ -162,7 +152,6 @@ public class AccountController {
         return usersMessage;
 
     }
-
 
     /**
      * @return 返回：boolean 存在返回true，不存在返回false
@@ -172,6 +161,7 @@ public class AccountController {
      * @Param 输入： Sting 类型的username
      **/
     @GetMapping("/checkUserName/{userName}")
+    @ApiOperation(value = "检查用户名是否存在")
     public boolean checkUserName(@PathVariable String userName) {
         return accountService.checkUsername(userName);
     }

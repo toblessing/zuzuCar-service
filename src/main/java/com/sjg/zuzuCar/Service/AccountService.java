@@ -2,6 +2,7 @@ package com.sjg.zuzuCar.Service;
 import com.sjg.zuzuCar.Mapper.AccountMapper;
 import com.sjg.zuzuCar.Model.Account;
 import com.sjg.zuzuCar.Model.AccountExample;
+import com.sjg.zuzuCar.Util.EncryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,7 @@ public class AccountService {
         if (!checkUsername(account.getUserName())) {
             try {
 
-                int insert = accountMapper.insert(account);
+                int insert = accountMapper.insertSelective(account);
                 return insert;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -90,8 +91,10 @@ public class AccountService {
     **/
     public int updateUser(Account account) {
         if (checkUsername(account.getUserName())) {
+            AccountExample accountExample = new AccountExample();
+            accountExample.createCriteria().andUserNameEqualTo(account.getUserName());
             try {
-                int insert = accountMapper.updateByPrimaryKeySelective(account);
+                int insert = accountMapper.updateByExampleSelective(account,accountExample);
                 return insert;
             } catch (Exception e) {
                 e.printStackTrace();
