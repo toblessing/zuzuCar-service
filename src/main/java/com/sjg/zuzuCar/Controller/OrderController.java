@@ -9,6 +9,7 @@ import com.sjg.zuzuCar.Service.CrudService;
 import com.sjg.zuzuCar.Util.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -94,13 +95,13 @@ public class OrderController {
         Message<List> message = new Message<List>();
         //获取获取当前时间
         Date date = new Date();
-        System.out.println("date:"+date.getTime());
 
         //创建查询约束
         ReservationFormExample orderExample = new ReservationFormExample();
         orderExample.createCriteria()
-                .andReservationIdIsNull()
+                .andReservationIdEqualTo(0)
                 .andFreeEndTimeGreaterThan(date.getTime());
+
         orderExample.setOrderByClause("free_start_time asc");
 
         try {
