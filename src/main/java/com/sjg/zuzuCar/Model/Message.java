@@ -11,7 +11,7 @@ import lombok.Data;
  **/
 @Data
 public class Message<T> {
-    private boolean isSuccess;
+    private boolean success;
     private String msg;
     private T data;
 }
