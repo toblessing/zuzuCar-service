@@ -29,8 +29,13 @@ public class AccountService {
     public Account login(Account account) {
         Account result = null;
         AccountExample accountExample = new AccountExample();
-        accountExample.createCriteria().andPasswordEqualTo(account.getPassword())
-                .andUserNameEqualTo(account.getUserName());
+        if(!account.getUserName().isEmpty()){
+            accountExample.createCriteria().andPasswordEqualTo(account.getPassword())
+                    .andUserNameEqualTo(account.getUserName());
+        }else if(!account.getPhone().isEmpty()){
+            accountExample.createCriteria().andPasswordEqualTo(account.getPassword())
+                    .andPhoneEqualTo(account.getPhone());
+        }
         List<Account> accountList = accountMapper.selectByExample(accountExample);
         if (accountList.size() == 1) {
             result = accountList.get(0);

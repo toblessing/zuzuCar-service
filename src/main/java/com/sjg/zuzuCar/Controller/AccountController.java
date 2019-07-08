@@ -37,7 +37,7 @@ public class AccountController {
     @PostMapping(value = "/login")
     public Message<Account> login(@RequestBody Account user, HttpSession session, HttpServletResponse response) {
         Message<Account> usersMessage = new Message<>();
-        if (!user.getUserName().isEmpty() && !user.getPassword().isEmpty()) {
+        if ((!user.getUserName().isEmpty()|| !user.getPhone().isEmpty() )&& !user.getPassword().isEmpty()) {
             user.setPassword(EncryUtils.encryptMD5(user.getPassword()));
             Account resultUser = accountService.login(user);
             if (resultUser != null) {
