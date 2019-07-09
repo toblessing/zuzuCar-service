@@ -28,9 +28,6 @@ import java.util.List;
 @RestController
 public class OrderController {
     @Autowired
-    CrudService crudService;
-
-    @Autowired
     ReservationFormService reservationFormService;
 
     @Autowired
@@ -39,7 +36,6 @@ public class OrderController {
     @PostMapping("addOrder")
     public Message<?> addOrder(@RequestBody ReservationForm order) {
 
-        List<Object> entityList = new ArrayList<>();
         Message<List> message = new Message<List>();
         Account account = Tools.getUserFromSeesion();
 
@@ -52,13 +48,10 @@ public class OrderController {
             return message;
         }
 
-        entityList.add(order);
-        try {
-            message.setData(crudService.add(entityList));
+        if (reservationFormService.add(order) !=0){
             message.setSuccess(true);
             message.setMsg("添加成功");
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+        } else {
             message.setSuccess(false);
             message.setMsg("添加失败");
         }
@@ -68,7 +61,6 @@ public class OrderController {
     @PostMapping("reservationOrder")
     public Message<?> reservationOrder(@RequestBody ReservationForm order) {
 
-        List<Object> entityList = new ArrayList<>();
         Message<List> message = new Message<List>();
         Account account = Tools.getUserFromSeesion();
 
@@ -82,14 +74,10 @@ public class OrderController {
         eacheOrder.setReservationTime(order.getReservationTime());
         eacheOrder.setReservationFormId(order.getReservationFormId());
         eacheOrder.setReservationId(account.getAccountId());
-
-        entityList.add(eacheOrder);
-        try {
-            message.setData(crudService.update(entityList));
+        if (reservationFormService.update(eacheOrder)!=0){
             message.setSuccess(true);
             message.setMsg("预约成功");
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+        }else {
             message.setSuccess(false);
             message.setMsg("预约失败");
         }

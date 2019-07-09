@@ -1,6 +1,7 @@
 package com.sjg.zuzuCar.Service;
 
 import com.sjg.zuzuCar.Mapper.custom.ReservationFormCustomMapper;
+import com.sjg.zuzuCar.Model.ReservationForm;
 import com.sjg.zuzuCar.Model.custom.ReservationFormCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,13 @@ public class ReservationFormService {
     }
     public List<ReservationFormCustom> readOrderByHolderId(Integer accountId) {
         return reservationFormCustomMapper.selectByHolderId(accountId);
+    }
+
+    public int add(ReservationForm order) {
+        return reservationFormCustomMapper.insertSelective(order);
+    }
+
+    public int update(ReservationForm order) {
+        return reservationFormCustomMapper.updateByPrimaryKeySelective(order);
     }
 }

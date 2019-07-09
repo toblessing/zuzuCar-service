@@ -60,4 +60,5 @@ public interface ReservationFormCustomMapper extends ReservationFormMapper {
     })
     @ResultMap("com.sjg.zuzuCar.Mapper.custom.ReservationFormCustomMapper.BaseResultMap")
     List<ReservationFormCustom> selectByHolderId(Integer accountId);
+
 }
