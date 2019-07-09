@@ -27,7 +27,8 @@ public interface ReservationFormCustomMapper extends ReservationFormMapper {
             "account.net_name,",
             "account.phone",
             "from reservation_form,models,account",
-            "where reservation_form.holder_id = account.account_id and reservation_form.model_id = models.model_id"
+            "where reservation_form.holder_id = account.account_id and reservation_form.model_id = models.model_id",
+            "and reservation_form.reservation_id=0 and  reservation_form.free_end_time > unix_timestamp(now())"
     })
     @ResultType(value = List.class)
     List<Map> selectFreeWithForeignKey();
