@@ -115,27 +115,18 @@ public class OrderController {
         Message<List> message = new Message<List>();
 
         Account account = Tools.getUserFromSeesion();
-        //获取获取当前时间
-        Date date = new Date();
-        System.out.println("date:" + date.getTime());
-
         if (account != null) {
-            //创建查询约束
-            ReservationFormExample orderExample = new ReservationFormExample();
-            orderExample.createCriteria()
-                    .andReservationIdEqualTo(account.getAccountId());
-            orderExample.setOrderByClause("reservation_time asc");
 
-            try {
-                //查询数据
-                message.setData(crudService.readByExample(ReservationForm.class.getSimpleName(), orderExample));
-                message.setSuccess(true);
-                message.setMsg("读取成功");
-            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                e.printStackTrace();
-                message.setSuccess(false);
-                message.setMsg("读取失败；");
-            }
+            //查询数据
+            message.setData(reservationFormService.readOrderByReservationId(account.getAccountId()));
+
+            message.setSuccess(true);
+            message.setMsg("读取成功");
+
+        }else {
+
+            message.setSuccess(false);
+            message.setMsg("您尚未登录，请登录后再试！");
         }
         return message;
     }
@@ -143,29 +134,18 @@ public class OrderController {
     @GetMapping("readAccountReleaseOrder")
     public Message<?> readAccountReleaseOrder() {
         Message<List> message = new Message<List>();
-
         Account account = Tools.getUserFromSeesion();
-        //获取获取当前时间
-        Date date = new Date();
-        System.out.println("date:" + date.getTime());
-
         if (account != null) {
-            //创建查询约束
-            ReservationFormExample orderExample = new ReservationFormExample();
-            orderExample.createCriteria()
-                    .andHolderIdEqualTo(account.getAccountId());
-            orderExample.setOrderByClause("free_start_time asc");
 
-            try {
-                //查询数据
-                message.setData(crudService.readByExample(ReservationForm.class.getSimpleName(), orderExample));
-                message.setSuccess(true);
-                message.setMsg("读取成功");
-            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                e.printStackTrace();
-                message.setSuccess(false);
-                message.setMsg("读取失败；");
-            }
+            //查询数据
+            message.setData(reservationFormService.readOrderByHolderId(account.getAccountId()));
+
+            message.setSuccess(true);
+            message.setMsg("读取成功");
+        }else {
+
+            message.setSuccess(false);
+            message.setMsg("您尚未登录，请登录后再试！");
         }
         return message;
     }

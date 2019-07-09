@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjg.zuzuCar.Mapper.custom.ReservationFormCustomMapper">
+  <resultMap id="BaseResultMap" type="com.sjg.zuzuCar.Model.custom.ReservationFormCustom">
+
+    <id column="reservation_form_id" jdbcType="INTEGER" property="reservationFormId" />
+    <result column="holder_id" jdbcType="INTEGER" property="holderId" />
+    <result column="reservation_id" jdbcType="INTEGER" property="reservationId" />
+    <result column="license_plate" jdbcType="VARCHAR" property="licensePlate" />
+    <result column="model_id" jdbcType="INTEGER" property="modelId" />
+    <result column="free_start_time" jdbcType="BIGINT" property="freeStartTime" />
+    <result column="free_end_time" jdbcType="BIGINT" property="freeEndTime" />
+    <result column="reservation_time" jdbcType="BIGINT" property="reservationTime" />
+
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="net_name" jdbcType="VARCHAR" property="netName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="model_name" jdbcType="VARCHAR" property="modelName" />
+  </resultMap>
+</mapper>

@@ -20,9 +20,15 @@ public class ReservationFormService {
     @Autowired
     private ReservationFormCustomMapper reservationFormCustomMapper;
 
-    public List<Map> readFreeOrder(){
+    public List<ReservationFormCustom> readFreeOrder(){
 
         return reservationFormCustomMapper.selectFreeWithForeignKey();
     }
 
+    public List<ReservationFormCustom> readOrderByReservationId(Integer accountId) {
+        return reservationFormCustomMapper.selectByReservationId(accountId);
+    }
+    public List<ReservationFormCustom> readOrderByHolderId(Integer accountId) {
+        return reservationFormCustomMapper.selectByHolderId(accountId);
+    }
 }

@@ -30,6 +30,34 @@ public interface ReservationFormCustomMapper extends ReservationFormMapper {
             "where reservation_form.holder_id = account.account_id and reservation_form.model_id = models.model_id",
             "and reservation_form.reservation_id=0 and  reservation_form.free_end_time > unix_timestamp(now())"
     })
-    @ResultType(value = List.class)
-    List<Map> selectFreeWithForeignKey();
+    @ResultMap("com.sjg.zuzuCar.Mapper.custom.ReservationFormCustomMapper.BaseResultMap")
+    List<ReservationFormCustom> selectFreeWithForeignKey();
+
+    @Select({
+            "select",
+            "reservation_form.*,",
+            "models.model_name,",
+            "account.user_name,",
+            "account.net_name,",
+            "account.phone",
+            "from reservation_form,models,account",
+            "where reservation_form.holder_id = account.account_id and reservation_form.model_id = models.model_id",
+            "and reservation_form.reservation_id= #{accountId,jdbcType=INTEGER}"
+    })
+    @ResultMap("com.sjg.zuzuCar.Mapper.custom.ReservationFormCustomMapper.BaseResultMap")
+    List<ReservationFormCustom> selectByReservationId(Integer accountId);
+
+    @Select({
+            "select",
+            "reservation_form.*,",
+            "models.model_name,",
+            "account.user_name,",
+            "account.net_name,",
+            "account.phone",
+            "from reservation_form,models,account",
+            "where reservation_form.holder_id = account.account_id and reservation_form.model_id = models.model_id",
+            "and reservation_form.holder_id= #{accountId,jdbcType=INTEGER}"
+    })
+    @ResultMap("com.sjg.zuzuCar.Mapper.custom.ReservationFormCustomMapper.BaseResultMap")
+    List<ReservationFormCustom> selectByHolderId(Integer accountId);
 }
