@@ -81,6 +81,7 @@ public class OrderController {
         ReservationForm eacheOrder = new ReservationForm();
         eacheOrder.setReservationTime(order.getReservationTime());
         eacheOrder.setReservationFormId(order.getReservationFormId());
+        eacheOrder.setReservationId(account.getAccountId());
 
         entityList.add(eacheOrder);
         try {
