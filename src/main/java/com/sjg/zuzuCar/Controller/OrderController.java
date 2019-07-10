@@ -50,10 +50,10 @@ public class OrderController {
 
         if (reservationFormService.add(order) !=0){
             message.setSuccess(true);
-            message.setMsg("添加成功");
+            message.setMsg("预约成功");
         } else {
             message.setSuccess(false);
-            message.setMsg("添加失败");
+            message.setMsg("预约失败");
         }
         return message;
     }
