@@ -69,7 +69,16 @@ public class OrderController {
             message.setMsg("您尚未登录，请登录后再试！");
             return message;
         }
-
+        if(order.getReservationFormId()==null){
+            message.setSuccess(false);
+            message.setMsg("您没有选择预约单，请重试！");
+            return message;
+        }
+        if(order.getReservationTime()==null){
+            message.setSuccess(false);
+            message.setMsg("您没有选择时间，请重试！");
+            return message;
+        }
         ReservationForm eacheOrder = new ReservationForm();
         eacheOrder.setReservationTime(order.getReservationTime());
         eacheOrder.setReservationFormId(order.getReservationFormId());
