@@ -104,15 +104,15 @@ public class OrderController {
             return message;
         }
         ReservationForm reservationForm = orderMapper.selectByPrimaryKey(order.getReservationFormId());
-        if(reservationForm.getReservationFormId()!=order.getReservationFormId()){
+        if(reservationForm.getReservationId()!=account.getAccountId()){
             message.setSuccess(false);
             message.setMsg("这不是您的预约单，请检查后重试");
             return message;
         }
 
-        reservationForm.setReservationId(0);
-        reservationForm.setReservationTime(0L);
-        if (reservationFormService.update(reservationForm)!=0){
+        reservationForm.setReservationId(null);
+        reservationForm.setReservationTime(null);
+        if (reservationFormService.cancelOrder(reservationForm)!=0){
             message.setSuccess(true);
             message.setMsg("取消成功");
         }else {

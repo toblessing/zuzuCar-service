@@ -40,4 +40,7 @@ public class ReservationFormService {
     public int update(ReservationForm order) {
         return reservationFormCustomMapper.updateByPrimaryKeySelective(order);
     }
+    public int cancelOrder(ReservationForm order) {
+        return reservationFormCustomMapper.updateByPrimaryKey(order);
+    }
 }
