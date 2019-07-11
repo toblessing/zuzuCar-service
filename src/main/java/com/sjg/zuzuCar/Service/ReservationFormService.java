@@ -43,4 +43,9 @@ public class ReservationFormService {
     public int cancelOrder(ReservationForm order) {
         return reservationFormCustomMapper.updateByPrimaryKey(order);
     }
+
+    public int remove(Integer reservationFormId) {
+
+        return reservationFormCustomMapper.deleteByPrimaryKey(reservationFormId);
+    }
 }
